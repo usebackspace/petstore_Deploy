@@ -37,6 +37,8 @@ urlpatterns = [
 
     path('address/',views.address,name='address'),
 
+    path('add_address/',views.add_address,name='addaddress'),
+
     path('delete_address/<int:id>',views.delete_address,name='deleteaddress'),
 
     path('logout/',views.log_out, name="logout"),
@@ -68,6 +70,13 @@ urlpatterns = [
     path('buynow_payment/<int:id>',views.buynow_payment,name='buynowpayment'),
 
     path('buynow_payment_success/<int:selected_address_id>/<int:id>',views.buynow_payment_success,name='buynowpaymentsuccess'),
+
+    path('forgotpassword/',views.forgot_password, name="forgotpassword"),
+
+    path('reset_password/<uidb64>/<token>/', views.reset_password, name='resetpassword'),
+
+    path('password_reset_done/', views.password_reset_done, name='passwordresetdone'),
+
 ]
 #--------- THis is will add file to media folder -----------
 if settings.DEBUG:

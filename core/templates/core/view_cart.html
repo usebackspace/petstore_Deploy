@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
-
+{% load static %}
 {% block content %}
-<div class="container-fluid profile">
+<div class="container-fluid profile view-cart view-cart-right-side-bar">
       <div class="row">
         <div class="col-md-2 d-none d-md-block sidebar" >
             <nav >
@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="#">
+                    <a class="nav-link " href="{% url "order" %}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
                     Orders
                     </a>
@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url "address" %}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     Address
                     </a>
@@ -48,7 +48,7 @@
                 <div class="col-10">
 
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-normal mb-0 text-black text-primary">Shopping Cart</h3>
+                    <h3 class="fw-normal mb-0 text-black text-danger">Shopping Cart</h3>
                     </div>
                 {% for item in cart_items %}
 
@@ -61,7 +61,7 @@
                                 class="img-fluid rounded-3" alt="Cotton T-shirt">
                             </div>
                             <div class="col-md-3 col-lg-3 col-xl-3">
-                                <p class="lead fw-normal mb-2">{{item.product.name}}</p> <!-- item.product.name = cart_items will hold all object from cart of current user , item variable will hold one object from cart_items and render on view_cart.html -->
+                                <p class="lead fw-normal text-danger mb-2">{{item.product.name}}</p> <!-- item.product.name = cart_items will hold all object from cart of current user , item variable will hold one object from cart_items and render on view_cart.html -->
                             </div>
                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                 <button class="btn btn-link px-2">
@@ -75,7 +75,7 @@
                                 </button>
                             </div>
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1 ">
-                                <h5 class="mb-0">₹{{item.product.discounted_price}}</h5>
+                                <h5 class="mb-0 text-danger">₹{{item.product.discounted_price}}</h5>
                             </div>
                             <form action="{% url "deletecart" item.id %}" method="POST">
                                     {% csrf_token %}
@@ -88,21 +88,31 @@
                         </div>
                     </div>
                     {% endfor %}
-                    
-                    <a href="{% url "checkout" %}">
-                        <div class="card">
-                            <div >
-                                <button type="button" class="btn btn-success btn-block btn-lg">Proceed to Pay</button>
-                            </div>
+                    {% if cart_items %}
+                    <a href="{% url "checkout" %}" >
+                        <div >
+                            <button type="button" class="btn btn-success btn-block btn-lg proceed-to-pay ">Proceed to Pay</button>
                         </div>
+                        
                     </a>
+                    {% else %}
+                    <figure>
+                        <figcaption class="figcaption"><h2>Your cart is empty</h2></figcaption>
+                        <img src="{% static "core/images/empty_cart.png" %}" alt="empty_cart" class="empty-cart">
+                    </figure>
+                        <a href="{% url "home" %}" >
+                        <div >
+                            <button type="button" class="btn btn-success btn-block btn-lg proceed-to-pay ">Continue Shopping</button>
+                        </div>
+                        
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </section>
 </div>
 </div>
-    </div>
 
 {% endblock content %}
 
